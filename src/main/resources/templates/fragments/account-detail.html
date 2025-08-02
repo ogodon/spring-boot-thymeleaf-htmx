@@ -1,0 +1,40 @@
+<div th:fragment="account-detail" xmlns:th="http://www.thymeleaf.org">
+    <h1 th:text="#{account.detail.title}">Détail du compte</h1>
+
+    <article class="card">
+        <header>
+            <h3 th:text="${account.iban}">IBAN</h3>
+        </header>
+        <footer>
+            <div class="flex">
+                <div th:text="#{account.balance}">Solde:</div>
+                <div class="flex-grow-1" style="text-align: right;">
+                    <strong th:text="${#numbers.formatDecimal(account.balance, 1, 2) + ' ' + account.currency}">0.00
+                        EUR</strong>
+                </div>
+            </div>
+        </footer>
+    </article>
+
+    <h2 th:text="#{account.transactions}">Transactions</h2>
+    <div class="transactions">
+        <div th:if="${account.transactions.empty}" style="padding: 1em; text-align: center;"
+            th:text="#{account.no.transactions}">
+            Aucune transaction
+        </div>
+        <div th:each="transaction : ${account.transactions}" class="card transaction"
+            th:with="isPositive=${account.id == transaction.toAccount.id}">
+            <div class="label" th:text="${#temporals.format(transaction.executionDate, 'dd/MM/yyyy HH:mm')}">
+                01/01/2024
+            </div>
+            <div th:if="${transaction.description}" th:text="${transaction.description}"
+                class="transaction-description">Description</div>
+            <div>
+                <span class="label" th:classappend="${isPositive ? 'success' : 'error'}"
+                    th:text="${#numbers.formatDecimal(isPositive ? transaction.amount : (-1 * transaction.amount), 1, 2) + ' ' + account.currency}">
+                    0.00 EUR
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
