@@ -1,0 +1,29 @@
+<div th:fragment="account-detail" xmlns:th="http://www.thymeleaf.org">
+    <a class="pseudo button" href="/" hx-boost="true"><i class="ri-arrow-left-line"></i></a>
+
+    <h1 th:text="#{account.detail.title}">Détail du compte</h1>
+
+    <article class="card">
+        <header>
+            <h3 th:text="${account.iban}">IBAN</h3>
+        </header>
+        <footer>
+            <div class="flex">
+                <div th:text="#{account.balance}">Solde:</div>
+                <div class="flex-grow-1" style="text-align: right;">
+                    <strong th:text="${#numbers.formatDecimal(account.balance, 1, 2) + ' ' + account.currency}">0.00
+                        EUR</strong>
+                </div>
+            </div>
+        </footer>
+    </article>
+
+    <h2 th:text="#{account.transactions}">Transactions</h2>
+    <div class="transactions">
+        <div th:if="${account.transactions.empty}" style="padding: 1em; text-align: center;"
+            th:text="#{account.no.transactions}">
+            Aucune transaction
+        </div>
+        <div th:replace="~{fragments/transactions-list :: transactions-list}"></div>
+    </div>
+</div>

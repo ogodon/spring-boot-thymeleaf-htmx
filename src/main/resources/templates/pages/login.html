@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <title th:text="#{auth.login.title}">Connexion</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <article class="card" style="max-width: 400px; margin: 2em auto;">
+            <header>
+                <h3 th:text="#{auth.login.title}">Connexion</h3>
+            </header>
+
+            <div>
+                <div th:if="${param.error}" style="margin-bottom: 1em;">
+                    <span class="label error" th:text="#{auth.login.error}">Email ou mot de passe incorrect</span>
+                </div>
+
+                <form hx-post="/login" hx-target="body" hx-push-url="/accounts" th:action="@{/login}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <fieldset class="flex two">
+                        <label>
+                            <input type="email" name="username" th:placeholder="#{auth.username}" required>
+                        </label>
+                        <label>
+                            <input type="password" name="password" th:placeholder="#{auth.password.placeholder}"
+                                required>
+                        </label>
+                    </fieldset>
+                    <footer style="text-align: center; padding-top: 1em;">
+                        <button type="submit" class="success" th:text="#{auth.login.button}">Se connecter</button>
+                    </footer>
+                </form>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>

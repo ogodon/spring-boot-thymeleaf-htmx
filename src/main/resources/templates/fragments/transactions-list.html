@@ -1,0 +1,17 @@
+<th:block th:fragment="transactions-list" xmlns:th="http://www.thymeleaf.org">
+    <div th:each="transaction : ${account.transactions}" class="card transaction"
+        th:with="isPositive=${account.id == transaction.toAccount.id}">
+        <div class="label" th:text="${#temporals.format(transaction.executionDate, 'dd/MM/yyyy HH:mm')}">
+            01/01/2024
+        </div>
+        <div th:if="${transaction.description}" th:text="${transaction.description}"
+            class="transaction-description">Description</div>
+        <div>
+            <span class="label" th:classappend="${isPositive ? 'success' : 'error'}"
+                th:text="${#numbers.formatDecimal(isPositive ? transaction.amount : (-1 * transaction.amount), 1, 2) + ' ' + account.currency}">
+                0.00 EUR
+            </span>
+        </div>
+    </div>
+    <div th:if="${!account.transactions.empty}" th:hx-get="@{/account/{id}/transactions(id=${account.id},page=${page + 1})}" hx-trigger="revealed" hx-swap="outerHTML"></div>
+</th:block>

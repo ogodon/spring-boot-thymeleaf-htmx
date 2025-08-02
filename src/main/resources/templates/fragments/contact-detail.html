@@ -1,0 +1,10 @@
+<div th:fragment="contact-detail" xmlns:th="http://www.thymeleaf.org">
+    <a class="pseudo button" href="/" hx-boost="true"><i class="ri-arrow-left-line"></i></a>
+    <h1><span th:text="#{contact.title}">Contact</span></h1>
+    <article class="card">
+        <p>
+            <span th:text="#{contact.email}">Pour tout contact veuillez envoyer un message à</span>
+            <a th:href="'mailto:' + #{contact.email.address}" th:text="#{contact.email.address}">contact@mabanque.fr</a>
+        </p>
+    </article>
+</div>

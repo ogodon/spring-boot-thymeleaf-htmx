@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <title th:text="#{account.list.title}">Mes comptes</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div th:replace="~{fragments/accounts-list :: accounts-list}"></div>
+    </div>
+</body>
+
+</html>

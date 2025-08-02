@@ -1,0 +1,26 @@
+<div th:fragment="accounts-list" xmlns:th="http://www.thymeleaf.org">
+    <h1 th:text="#{account.list.title} + ' (' + ${accounts.size()} + ' ' + #{account.list.count} + ')'">Mes comptes
+        (0)</h1>
+    <div>
+        <div th:each="account : ${accounts}" class="account">
+            <article class="card">
+                <a hx-boost="true" th:href="@{/account/{id}#(id=${account.id})}">
+                    <header>
+                        <h3 th:text="${account.iban}">IBAN</h3>
+                    </header>
+                    <footer>
+                        <div class="flex">
+                            <div th:text="#{account.balance}">Solde:</div>
+                            <div class="flex-grow-1" style="text-align: right;">
+                                <strong
+                                    th:text="${#numbers.formatDecimal(account.balance, 1, 2) + ' ' + account.currency}">
+                                    0.00 EUR
+                                </strong>
+                            </div>
+                        </div>
+                    </footer>
+                </a>
+            </article>
+        </div>
+    </div>
+</div>

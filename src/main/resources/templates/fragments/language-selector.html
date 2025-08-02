@@ -1,0 +1,10 @@
+<div th:fragment="language-selector" xmlns:th="http://www.thymeleaf.org">
+    <a hx-boost="true" th:fragment="language-selector-fr" th:href="@{/change-language#(lang='fr')}" class="language-link"
+        th:title="#{common.language.fr}">
+        <img src="/images/flags/fr.svg" th:alt="#{common.language.fr}" width="32" height="24">
+    </a>
+    <a hx-boost="true" th:fragment="language-selector-en" th:href="@{/change-language#(lang='en')}" class="language-link"
+        th:title="#{common.language.en}">
+        <img src="/images/flags/gb.svg" th:alt="#{common.language.fr}" width="32" height="24">
+    </a>
+</div>
