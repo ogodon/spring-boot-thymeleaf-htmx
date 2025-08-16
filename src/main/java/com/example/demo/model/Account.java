@@ -49,10 +49,10 @@ public class Account {
     @Column(nullable = false, length = 3)
     private String currency;
 
-    @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> outgoingTransactions = new HashSet<>();
 
-    @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> incomingTransactions = new HashSet<>();
 
     public Set<Transaction> getAllTransactions() {
