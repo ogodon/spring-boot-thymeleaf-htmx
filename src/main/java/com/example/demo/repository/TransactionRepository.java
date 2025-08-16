@@ -3,6 +3,8 @@ package com.example.demo.repository;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import com.example.demo.model.Account;
 import com.example.demo.model.Transaction;
 
@@ -13,4 +15,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     List<Transaction> findByFromAccountOrderByExecutionDateDesc(Account fromAccount);
 
     List<Transaction> findByToAccountOrderByExecutionDateDesc(Account toAccount);
+
+    @Query("SELECT t FROM Transaction t WHERE t.fromAccount = :account OR t.toAccount = :account ORDER BY t.executionDate DESC LIMIT :pageSize OFFSET :pageNumber * :pageSize")
+    List<Transaction> findTransactionsByAccount(@Param("account") Account account,
+            @Param("pageSize") int pageSize, @Param("pageNumber") int pageNumber);
 }
