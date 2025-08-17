@@ -1,16 +1,20 @@
 package com.example.demo.service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import com.example.demo.dto.AccountDTO;
 import com.example.demo.dto.TransactionDTO;
 import com.example.demo.model.Account;
+import com.example.demo.model.Transaction;
 import com.example.demo.model.User;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
 
     public List<AccountDTO> getAccountsForUser(User user) {
         if (user == null) {
@@ -27,7 +32,7 @@ public class AccountService {
         return accounts.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public AccountDTO getAccountById(UUID id, User currentUser) {
+    public AccountDTO getAccountById(UUID id, User currentUser, int transactionsPage) {
         if (id == null) {
             throw new IllegalArgumentException("L'ID du compte ne peut pas être null");
         }
@@ -43,7 +48,7 @@ public class AccountService {
         }
 
         AccountDTO dto = convertToDTO(account);
-        dto.setTransactions(getTransactionsForAccount(account));
+        dto.setTransactions(getTransactionsForAccount(account, transactionsPage));
         return dto;
     }
 
@@ -60,12 +65,16 @@ public class AccountService {
         return dto;
     }
 
-    private List<TransactionDTO> getTransactionsForAccount(Account account) {
+    private List<TransactionDTO> getTransactionsForAccount(Account account, int page) {
         if (account == null) {
             throw new IllegalArgumentException("Le compte ne peut pas être null");
         }
 
-        return account.getAllTransactions().stream().map(transaction -> {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Transaction> transactionPage =
+                transactionRepository.findTransactionsByAccount(account, pageable);
+        List<Transaction> transactions = transactionPage.getContent();
+        return transactions.stream().map(transaction -> {
             TransactionDTO dto = new TransactionDTO();
             dto.setId(transaction.getId().toString());
             dto.setAmount(transaction.getAmount());
@@ -81,7 +90,6 @@ public class AccountService {
             toAccount.setId(transaction.getToAccount().getId().toString());
             dto.setToAccount(toAccount);
             return dto;
-        }).sorted(Comparator.comparing(TransactionDTO::getExecutionDate).reversed())
-                .collect(Collectors.toList());
+        }).collect(Collectors.toList());
     }
 }

@@ -95,7 +95,7 @@ public class DataInitializationService {
         // Create random transactions between different accounts
         for (Account account : accounts) {
             // For each account, create 3 to 7 transactions
-            int numTransactions = 200 + random.nextInt(100);
+            int numTransactions = 100 + random.nextInt(100);
             for (int i = 0; i < numTransactions; i++) {
                 // Find a different account with the same currency
                 Account otherAccount;
