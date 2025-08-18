@@ -59,7 +59,7 @@ public class DataInitializationService {
         transaction.setAmount(amount);
         transaction.setCurrency(fromAccount.getCurrency());
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime randomDate = now.minusDays(random.nextInt(30)).withHour(random.nextInt(24))
+        LocalDateTime randomDate = now.minusDays(random.nextInt(365)).withHour(random.nextInt(24))
                 .withMinute(random.nextInt(60)).withSecond(random.nextInt(60));
         transaction.setExecutionDate(randomDate);
         transaction.setDescription(generateTransactionDescription(true));
