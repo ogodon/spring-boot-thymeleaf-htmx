@@ -20,6 +20,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
         List<Transaction> findByToAccountOrderByExecutionDateDesc(Account toAccount);
 
         @Query("SELECT t FROM Transaction t WHERE t.fromAccount = :account OR t.toAccount = :account ORDER BY t.executionDate DESC")
+        List<Transaction> findAllTransactionsByAccount(@Param("account") Account account);
+
+        @Query("SELECT t FROM Transaction t WHERE t.fromAccount = :account OR t.toAccount = :account ORDER BY t.executionDate DESC")
         Page<Transaction> findTransactionsByAccount(@Param("account") Account account,
                         Pageable pageable);
 }

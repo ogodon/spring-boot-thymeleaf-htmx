@@ -44,10 +44,7 @@ public class SecurityConfig {
                                 .formLogin(form -> form.loginPage("/login")
                                                 .defaultSuccessUrl("/accounts", true)
                                                 .failureUrl("/login?error=true").permitAll())
-                                .logout(logout -> logout.logoutUrl("/logout").addLogoutHandler(
-                                                (request, response, auth) -> response.setHeader(
-                                                                "HX-Push-Url",
-                                                                "/login?logout=true"))
+                                .logout(logout -> logout.logoutUrl("/logout")
                                                 .logoutSuccessUrl("/login?logout=true")
                                                 .invalidateHttpSession(true)
                                                 .clearAuthentication(true).permitAll())

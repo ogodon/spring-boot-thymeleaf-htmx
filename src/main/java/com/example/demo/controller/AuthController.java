@@ -19,13 +19,6 @@ public class AuthController {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/accounts";
         }
-        if ("true".equals(request.getParameter("error"))) {
-            response.setHeader("HX-Push-Url", "/login?error=true");
-        } else if ("true".equals(request.getParameter("logout"))) {
-            response.setHeader("HX-Push-Url", "/login?logout=true");
-        } else {
-            response.setHeader("HX-Push-Url", "/login");
-        }
         return "pages/login";
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.User;
 import com.example.demo.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +35,17 @@ public class AccountController {
     @PreAuthorize("@securityService.checkAccountAccess(#id)")
     public String accountDetail(@PathVariable UUID id, @AuthenticationPrincipal User user,
             Model model) {
-        model.addAttribute("account", accountService.getAccountById(id, user, 0));
-        model.addAttribute("page", 0);
+        model.addAttribute("account", accountService.getAccountById(id, user));
         return "pages/account";
     }
 
-    @GetMapping("/account/{id}/transactions")
-    @PreAuthorize("@securityService.checkAccountAccess(#id)")
-    public String accountTransactions(@PathVariable UUID id, @AuthenticationPrincipal User user,
-            @RequestParam(defaultValue = "0") int page, Model model) {
-        model.addAttribute("account", accountService.getAccountById(id, user, page));
-        model.addAttribute("page", page);
-        return "fragments/transactions-list :: transactions-list";
-    }
+    // @GetMapping("/account/{id}/transactions")
+    // @PreAuthorize("@securityService.checkAccountAccess(#id)")
+    // public String accountTransactionsByPage(@PathVariable UUID id,
+    // @AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") int page,
+    // Model model) {
+    // model.addAttribute("account", accountService.getAccountByIdAndPage(id, user, page));
+    // model.addAttribute("page", page);
+    // return "fragments/transactions-list-by-page :: transactions-list-by-page";
+    // }
 }

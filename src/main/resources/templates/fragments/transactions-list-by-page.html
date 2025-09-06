@@ -1,4 +1,4 @@
-<th:block th:fragment="transactions-list" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="transactions-list-by-page" xmlns:th="http://www.thymeleaf.org">
     <div th:each="transaction : ${account.transactions}" class="card transaction"
         th:with="isPositive=${account.id == transaction.toAccount.id}">
         <div class="label" th:text="${#temporals.format(transaction.executionDate, 'dd/MM/yyyy HH:mm')}">
@@ -13,4 +13,5 @@
             </span>
         </div>
     </div>
+    <div th:if="${!account.transactions.empty}" th:hx-get="@{/account/{id}/transactions(id=${account.id},page=${page + 1})}" hx-trigger="revealed" hx-swap="outerHTML"></div>
 </th:block>

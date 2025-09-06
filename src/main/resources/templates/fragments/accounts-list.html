@@ -4,7 +4,7 @@
     <div>
         <div th:each="account : ${accounts}" class="account">
             <article class="card">
-                <a hx-boost="true" th:href="@{/account/{id}#(id=${account.id})}">
+                <a th:href="@{/account/{id}#(id=${account.id})}">
                     <header>
                         <h3 th:text="${account.iban}">IBAN</h3>
                     </header>
